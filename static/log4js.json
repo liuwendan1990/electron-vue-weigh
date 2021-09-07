@@ -1,0 +1,25 @@
+{
+  "appenders":
+  {
+    "date": {
+      "type": "dateFile",
+      "filename": "./logs/log_date/date",
+      "alwaysIncludePattern": true,
+      "pattern": "-yyyy-MM-dd.log"
+    },
+    "console": {
+      "type": "console"
+    }
+  },
+  "categories": {
+    "default": {
+      "appenders": ["date","console"],
+      "level": "debug"
+    },
+    "prod": {
+      "appenders": ["date"],
+      "level": "info"
+    }
+  },
+  "replaceConsole": true
+}

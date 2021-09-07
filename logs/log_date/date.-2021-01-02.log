@@ -1,0 +1,49 @@
+[2021-01-02T15:10:08.110] [INFO] default - local http server running at 8888
+[2021-01-02T15:10:59.584] [INFO] default - local http server running at 8888
+[2021-01-02T15:11:00.792] [INFO] default - local http server running at 8888
+[2021-01-02T15:11:01.022] [INFO] default - receive request [object Object], car: 鄂A8888
+[2021-01-02T15:11:05.184] [INFO] default - receive request [object Object], car: 鄂A8888
+[2021-01-02T15:13:00.984] [INFO] default - receive request [object Object], car: 鄂A8888
+[2021-01-02T15:14:42.004] [INFO] default - local http server running at 8888
+[2021-01-02T15:14:43.241] [INFO] default - local http server running at 8888
+[2021-01-02T15:14:48.334] [INFO] default - receive request [object Object], car: 鄂A8888
+[2021-01-02T15:15:24.696] [INFO] default - receive request [object Object], car: 鄂A8881
+[2021-01-02T15:15:44.944] [INFO] default - local http server running at 8888
+[2021-01-02T15:15:47.934] [INFO] default - receive request [object Object], car: 鄂A8881
+[2021-01-02T15:16:55.756] [INFO] default - local http server running at 8888
+[2021-01-02T15:16:56.956] [INFO] default - local http server running at 8888
+[2021-01-02T15:16:59.839] [INFO] default - Url {
+  protocol: null,
+  slashes: null,
+  auth: null,
+  host: null,
+  port: null,
+  hostname: null,
+  hash: null,
+  search: '?car=%E9%84%82A8881',
+  query: [Object: null prototype] { car: '鄂A8881' },
+  pathname: '/pushcar',
+  path: '/pushcar?car=%E9%84%82A8881',
+  href: '/pushcar?car=%E9%84%82A8881'
+}
+[2021-01-02T15:18:27.711] [INFO] default - local http server running at 8888
+[2021-01-02T15:18:28.833] [INFO] default - local http server running at 8888
+[2021-01-02T15:18:36.233] [INFO] default - receive request: /pushcar?car=%E9%84%82A88811
+[2021-01-02T15:18:39.441] [INFO] default - receive request: /pushcar?car=%E9%84%82A88812
+[2021-01-02T15:21:19.742] [INFO] default - local http server running at 8888
+[2021-01-02T15:21:43.724] [INFO] default - receive request: /pushcar?car=%E9%84%82A88812
+[2021-01-02T15:25:00.647] [INFO] default - local http server running at 8888
+[2021-01-02T15:36:56.771] [INFO] default - local http server running at 8888
+[2021-01-02T15:38:03.457] [INFO] default - local http server running at 8888
+[2021-01-02T15:44:38.999] [INFO] default - local http server running at 8888
+[2021-01-02T15:44:40.418] [INFO] default - local http server running at 8888
+[2021-01-02T15:45:07.203] [INFO] default - local http server running at 8888
+[2021-01-02T15:45:19.783] [INFO] default - receive request: /pushcar?car=%E9%84%82A88812
+[2021-01-02T15:45:39.386] [INFO] default - local http server running at 8888
+[2021-01-02T15:45:40.526] [INFO] default - local http server running at 8888
+[2021-01-02T15:45:43.040] [INFO] default - receive request: /pushcar?car=%E9%84%82A88812
+[2021-01-02T15:45:46.601] [INFO] default - receive request: /pushcar?car=%E9%84%82A88812
+[2021-01-02T15:45:47.601] [INFO] default - receive request: /pushcar?car=%E9%84%82A88812
+[2021-01-02T15:45:48.046] [INFO] default - receive request: /pushcar?car=%E9%84%82A88812
+[2021-01-02T15:45:56.959] [INFO] default - receive request: /pushcar?car=%E9%84%82A8881
+[2021-01-02T15:46:02.579] [INFO] default - receive request: /pushcar?car=%E9%84%82A8881

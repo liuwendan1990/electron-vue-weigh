@@ -1,12 +1,12 @@
 <template>
   <div id="app">
     <el-header class="header" v-show="$route.meta.showFooter" style="padding:0;height:50px;">
-        <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-            <el-menu-item index="1" :class="{on:$route.path==='/main'}" @click="goTo('/main')">称重管理</el-menu-item>
+        <el-menu :default-active="$route.path" class="el-menu-demo" mode="horizontal" @select="handleSelect" router>
+            <el-menu-item index="/main" @click="goTo('/main')">称重管理</el-menu-item>
             <el-submenu index="2">
                 <template slot="title">个人设置</template>
-                <el-menu-item index="2-1" :class="{on:$route.path==='/user'}" @click="goTo('/user')">个人信息</el-menu-item>
-                <el-menu-item index="2-2" :class="{on:$route.path==='/login'}" @click="goTo('/login')">退出登录</el-menu-item>
+                <el-menu-item index="/user">个人信息</el-menu-item>
+                <el-menu-item index="/login">退出登录</el-menu-item>
             </el-submenu>
         </el-menu>
         <div class="img_box">
@@ -33,11 +33,12 @@
     name: 'weigh',
     data () {
       return {
-        activeIndex: '1',
+        // activeIndex: '1',
         currentTime: ''
       }
     },
     mounted () {
+      console.log(this.$route, this.$router)
       this.currentTime = CurentTime(new Date())
       this.timer = setInterval(() => {
         this.currentTime = CurentTime(new Date()) // 修改数据date
@@ -45,23 +46,26 @@
     },
     methods: {
       goTo (path) {
-        this.$router.replace(path)
-        if (getToken()) {
-          removeToken()
+        if (path !== this.$route.path) {
+          this.$router.replace(path)
         }
-        this.$electron.ipcRenderer.send('reLogin')
         // this.$router.push('') //push方法是有回退功能的，这里不需要
       },
       // 导航菜单
       handleSelect (key, keyPath) {
         console.log(key, keyPath)
-        // if (key === 1) {
-        //   // 跳转到称重页面
-        //   this.goTo('/main')
-        // } else {
-        //   // 跳转到个人设置页面
-        //   this.goTo('/user')
-        // }
+        if (key === '/user') {
+          // this.goTo(key)
+        } else if (key === '/login') {
+          this.exitLogin(key)
+        }
+      },
+      exitLogin (path) {
+        this.goTo(path)
+        if (getToken()) {
+          removeToken()
+        }
+        this.$electron.ipcRenderer.send('reLogin')
       }
     },
     destroyed () {

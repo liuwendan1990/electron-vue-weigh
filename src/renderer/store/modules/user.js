@@ -3,13 +3,17 @@ import { login } from '@/api/sys.js'
 
 const user = {
   state: {
-    token: getToken()
+    token: getToken(),
+    activeIndex: '1'
   },
   mutations: {
     SET_TOKEN: (state, token) => {
       state.token = token
       removeToken()
       setToken(token)
+    },
+    SET_ACTIVE_INDEX: (state, index) => {
+      state.activeIndex = index
     }
   },
   actions: {
@@ -25,6 +29,9 @@ const user = {
           reject(e)
         })
       })
+    },
+    getActiveIndex ({commit}, index) {
+      commit('SET_ACTIVE_INDEX', index)
     }
   }
 }

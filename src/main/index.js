@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, BrowserWindow, ipcMain, Menu } from 'electron'
+import {app, BrowserWindow, ipcMain, Menu} from 'electron'
 
 /**
  * Set `__static` path to static files in production
@@ -22,8 +22,8 @@ function createWindow () {
    */
   mainWindow = new BrowserWindow({
     id: 1,
-    width: 500,
-    height: 390,
+    width: 680,
+    height: 480,
     useContentSize: true,
     // 无边框
     frame: false,
@@ -82,8 +82,8 @@ ipcMain.on('closeLogin', () => {
 ipcMain.on('toAppIndex', () => {
   indexWindow = new BrowserWindow({
     id: 2,
-    width: 500,
-    height: 390,
+    width: 680,
+    height: 480,
     title: 'PRODUCT NAME',
     webPreferences: {
       nodeIntegration: true
@@ -92,14 +92,36 @@ ipcMain.on('toAppIndex', () => {
   indexWindow.maximize()
   Menu.setApplicationMenu(Menu.buildFromTemplate(appMenus()))
   // 隐藏electron创建的菜单栏
-  // Menu.setApplicationMenu(null)
+  Menu.setApplicationMenu(null)
   indexWindow.loadURL(winURL + '#/main')
 
   indexWindow.on('closed', () => {
+    // localStorage.removeItem('userData')
     indexWindow = null
     console.log('indexWindow has closed')
   })
+
+  // indexWindow.on('close', (e) => {
+  //   console.log('indexWindow has close')
+  //   e.preventDefault()
+  //   dialog.showMessageBox({
+  //     type: 'warning',
+  //     title: '关闭窗口',
+  //     message: '你确定关闭该窗口吗？',
+  //     buttons: ['取消', '确定']
+  //   }, (idx) => {
+  //     console.log('进来了')
+  //     if (idx === 0) {
+  //       indexWindow = null
+  //       app.exit()
+  //       console.log('indexWindow has closed----')
+  //     } else {
+  //       e.preventDefault()
+  //     }
+  //   })
+  // })
 })
+
 ipcMain.on('reLogin', () => {
   if (indexWindow) {
     indexWindow.close()
@@ -108,16 +130,9 @@ ipcMain.on('reLogin', () => {
     console.log('indexWindow close fail')
   }
 })
+
 function appMenus () {
   const template = [
-    {
-      id: 11,
-      label: '设置',
-      submenu: [{
-        id: 111,
-        label: '设置1'
-      }]
-    },
     {
       id: 21,
       label: '开发',

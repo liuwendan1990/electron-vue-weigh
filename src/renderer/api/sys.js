@@ -1,20 +1,40 @@
 import request from '@/utils/request'
+import { CurentTime } from '@/utils/timeformat'
 
-export function login (username, password) {
+export function login (loginName, password) {
   return request({
-    url: '/user/login',
+    url: 'dispatcher/login',
     method: 'post',
     params: {
-      username,
+      loginName,
       password
     }
   })
 }
 
 export function getTableData (queryParam) {
+  const queryData = {...queryParam}
+  if (queryData.queryStartDate !== '') {
+    queryData.queryStartDate = CurentTime(queryData.queryStartDate)
+  }
+  if (queryData.queryEndDate !== '') {
+    queryData.queryEndDate = CurentTime(queryData.queryEndDate)
+  }
+  console.log(queryData)
   return request({
-    url: '/user/tabledata',
+    url: 'weigh/getWarehouseWeighingList',
     method: 'post',
-    params: queryParam
+    params: queryData
+  })
+}
+
+export function gate (weighing, type) {
+  return request({
+    url: 'weigh/gate',
+    method: 'post',
+    params: {
+      weighing,
+      type
+    }
   })
 }

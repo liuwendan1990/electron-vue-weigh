@@ -2,7 +2,8 @@ import axios from 'axios'
 // import { Message, MessageBox } from 'element-ui'
 import { Message } from 'element-ui'
 // import store from '../store'
-import { getToken } from '@/utils/auth'
+// import { getToken } from '@/utils/auth'
+// import qs from 'qs'
 
 // 创建axios实例
 const service = axios.create({
@@ -12,10 +13,17 @@ const service = axios.create({
 
 // request拦截器
 service.interceptors.request.use(config => {
-  const token = getToken()
-  if (token) {
-    config.headers['token'] = token// 让每个请求携带自定义token 请根据实际情况自行修改
-  }
+  // 1、处理post请求的请求体参数：转换为urlencode格式（默认用的json格式）
+  // const {method, data} = config
+  // if (method.toUpperCase() === 'POST' && data instanceof Object) {
+  //   config.data = qs.stringify(data)
+  // }
+  // 2、如果需要携带token的请求，从state中取出token
+  // const token = getToken()
+  // if (token) {
+  // config.headers['erp-token'] = token// 让每个请求携带自定义token 请根据实际情况自行修改
+  config.headers['erp-token'] = 'def6d90e829e50c63f98c387daecd138'
+  // }
   return config
 }, error => {
   // Do something with request error
@@ -29,29 +37,19 @@ service.interceptors.response.use(
   /**
   * code为非0或1是抛错 可结合自己业务进行修改
   */
+    // console.log(response)
     const res = response.data
-    if (res.code !== 0 && res.code !== 1) {
+    // console.log(res, res.code)
+    if (res.code !== 0) {
       Message({
         message: res.msg,
         type: 'error',
+        center: true,
         duration: 5 * 1000
       })
-
-      // 999:非法的token
-      // if (res.code === 999) {
-      //   MessageBox.confirm('身份验证失败请重新登录', '提示', {
-      //     confirmButtonText: '重新登录',
-      //     type: 'warning'
-      //   }).then(() => {
-      //     store.dispatch('FedLogOut').then(() => {
-      //       location.reload()// 为了重新实例化vue-router对象 避免bug
-      //     })
-      //   })
-      // }
-      return Promise.reject(new Error(res.msg))
-    } else {
-      return res
+      // return Promise.reject(new Error(res.msg))
     }
+    return res
   },
   error => {
     console.log('err' + error)// for debug

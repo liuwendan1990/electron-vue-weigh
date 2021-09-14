@@ -1,55 +1,44 @@
 <template>
-    <el-container>
-        <el-header style="padding:0;">
-            <el-row class="header">
-                <el-col class="product-title" :span="8" :offset="8">
-                    <div class="title">
-                        <p>物资称重管理系统</p>
-                    </div>
-                </el-col>
-                <el-col :span="8" class="btns">
-                    <el-button class="btn-minus" size="large" type="text" icon="el-icon-minus" @click="minus"></el-button>
-                    <el-button class="btn-close" size="large" type="text" icon="el-icon-close" @click="close()"></el-button>
-                </el-col>
-            </el-row>
-        </el-header>
-        <el-main style="margin-top:30px">
-            <el-row>
-                <el-col :span="18" :offset="3">
-                    <el-form class="login-form" autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left">
-                        <el-form-item prop="username">
-                            <span class="svg-container">
-                              <svg-icon icon-class="user" />
-                            </span>
-                            <el-input name="username" type="text" v-model="loginForm.username" autofocus="true"
-                                      autoComplete="on" placeholder="请输入用户名" class="login-input" clearable/>
-                        </el-form-item>
-                        <el-form-item prop="password">
-                            <span class="svg-container password">
-                              <svg-icon icon-class="password"></svg-icon>
-                            </span>
-                            <el-input name="password" @keyup.enter.native="handleLogin" v-model="loginForm.password"
-                                      placeholder="请输入密码" class="login-input" show-password></el-input>
-                        </el-form-item>
-                        <el-form-item>
-                            <el-button type="primary" style="width:100%;" :loading="loading" @click.native.prevent="handleLogin">
-                                登录
-                            </el-button>
-                            <span class="tips" v-show="tips">用户名或密码错误</span>
-                        </el-form-item>
-                    </el-form>
-                </el-col>
-            </el-row>
-        </el-main>
-        <el-footer style="position:fixed;bottom:0;width:100%">
-            <div class="footer-container">
-                <p>&copy;版权所有</p>
-            </div>
-        </el-footer>
-    </el-container>
+    <div class="login">
+        <el-row class="login_head">
+            <el-col :span="8" :offset="16" class="btns">
+                <el-button class="btn-minus" size="large" type="text" icon="el-icon-minus" @click="minus"></el-button>
+                <el-button class="btn-close" size="large" type="text" icon="el-icon-close" @click="close()"></el-button>
+            </el-col>
+        </el-row>
+        <el-row class="login_main">
+            <el-col :span="21" style="text-align:center">
+                <img src="~@/assets/nav.png" alt="物资称重管理系统" style="margin:40px 0">
+                <el-form class="login-form" autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left">
+                    <el-form-item prop="loginName">
+                        <span class="svg-container">
+                            <svg-icon icon-class="user" />
+                        </span>
+                        <el-input name="loginName" type="text" v-model="loginForm.loginName" autofocus="true"
+                                    autoComplete="on" placeholder="请输入用户名" class="login-input" clearable/>
+                    </el-form-item>
+                    <el-form-item prop="password">
+                        <span class="svg-container password">
+                            <svg-icon icon-class="password"></svg-icon>
+                        </span>
+                        <el-input name="password" @keyup.enter.native="handleLogin" v-model="loginForm.password"
+                                    placeholder="请输入密码" class="login-input" show-password></el-input>
+                    </el-form-item>
+                    <el-form-item style="-webkit-app-region: no-drag;">
+                        <el-button type="primary" style="width:100%;margin-top:20px" :loading="loading" @click.native.prevent="handleLogin">
+                            登录
+                        </el-button>
+                        <span class="tips" v-show="tips">用户名或密码错误</span>
+                    </el-form-item>
+                </el-form>
+            </el-col>
+        </el-row>
+        <div class="login_foot"></div>
+    </div>
 </template>
 
 <script>
+import {login} from '@/api/sys.js'
 export default {
   name: 'login',
   data () {
@@ -58,11 +47,11 @@ export default {
       loading: false,
       tips: false,
       loginForm: {
-        username: '',
+        loginName: '',
         password: ''
       },
       loginRules: {
-        username: [{required: true, message: '请输入用户名', trigger: 'change'}],
+        loginName: [{required: true, message: '请输入用户名', trigger: 'change'}],
         password: [{required: true, message: '请输入密码', trigger: 'change'}]
       }
     }
@@ -71,15 +60,20 @@ export default {
     handleLogin () {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          this.loading = false
-          this.$electron.ipcRenderer.send('toAppIndex')
-          // this.$store.dispatch('doLogin', this.loginForm).then(() => {
-          //   this.loading = false
-          //   this.$electron.ipcRenderer.send('toAppIndex')
-          // }).catch(e => {
-          //   console.log(e)
-          //   this.loading = false
-          // })
+          this.loading = true
+          login(this.loginForm.loginName, this.loginForm.password).then(response => {
+            console.log(response)
+            if (response.code === 0) {
+              console.log(response.data)
+              // 将user保存到state中
+              // this.$store.dispatch('saveUser', response.data)
+              console.log(JSON.stringify(response.data))
+              localStorage.setItem('userData', JSON.stringify(response.data))
+              this.$electron.ipcRenderer.send('toAppIndex')
+            } else {
+              this.loading = false
+            }
+          })
         } else {
           return false
         }
@@ -96,10 +90,22 @@ export default {
 </script>
 
 <style scoped>
-    .header {
-        background: #EFF2F6;
-        height: 100%;
+    .login {
+        height: 480px;
+        padding-left: 343px;
+        padding-right: 8px;
+        padding-top: 3px;
+        box-sizing: border-box;
+        overflow: hidden;
+        background: #fff url('~@/assets/login_bg.png') no-repeat left top;
         -webkit-app-region: drag;
+    }
+    .login_foot {
+        position: relative;
+        bottom: -18px;
+        right: -8px;
+        height: 100px;
+        background: #fff url('~@/assets/login_bg_bottom.png') no-repeat right bottom;
     }
     .product-title {
         height: 100%;
@@ -113,21 +119,21 @@ export default {
     }
     .btns {
         text-align: right;
-        height: 30px;
+        /* height: 30px; */
         -webkit-app-region: no-drag;
     }
     .btns>button {
-        font-size: 20px;
-        padding: 3px 9px;
-        color: #000000;
-        border-radius: 0;
+        font-size: 16px;
+        padding: 4px;
+        color: #51596B;
+        border-radius: 3px;
     }
     .btn-minus:hover {
-        background: #fef6fc;
+        background: #eeeeee;
     }
     .btn-close:hover {
         color: #ffffff;
-        background: #E81123;
+        background: #FA5151;
     }
     .svg-container {
         display: inline-block;
@@ -138,15 +144,6 @@ export default {
     .svg-container.password {
         font-size: 26px;
     }
-    .footer-container {
-        text-align: center;
-        display: flex;
-        height: 100%;
-        align-items: center;
-    }
-    .footer-container p {
-        width: 100%;
-    }
     .tips {
         color: red;
     }
@@ -154,5 +151,6 @@ export default {
 <style>
     .login-input input.el-input__inner {
         padding-left: 30px;
+        -webkit-app-region: no-drag;
     }
 </style>

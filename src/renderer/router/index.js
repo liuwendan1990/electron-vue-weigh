@@ -32,26 +32,26 @@ export default new VueRouter({
     {
       path: '/login',
       name: 'login page',
-      component: () => import('@/views/login/index'),
-      meta: {
-        showFooter: false
-      }
+      component: () => import('@/views/login/index')
     },
     {
       path: '/main',
       name: 'main page',
       component: () => import('@/views/main/index'),
-      meta: {
-        showFooter: true
-      }
-    },
-    {
-      path: '/user',
-      name: 'user page',
-      component: () => import('@/views/user/index'),
-      meta: {
-        showFooter: true
-      }
+      children: [
+        {
+          path: '/main/weight',
+          component: () => import('@/views/weight/index')
+        },
+        {
+          path: '/main/user',
+          component: () => import('@/views/user/index')
+        },
+        {
+          path: '',
+          redirect: '/main/weight'
+        }
+      ]
     },
     {
       path: '*',

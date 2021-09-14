@@ -1,10 +1,10 @@
 import {getToken, setToken, removeToken} from '@/utils/auth.js'
-import { login } from '@/api/sys.js'
+// import { login } from '@/api/sys.js'
 
 const user = {
   state: {
     token: getToken(),
-    activeIndex: '1'
+    user: {} // 当前登陆用户
   },
   mutations: {
     SET_TOKEN: (state, token) => {
@@ -12,26 +12,24 @@ const user = {
       removeToken()
       setToken(token)
     },
-    SET_ACTIVE_INDEX: (state, index) => {
-      state.activeIndex = index
+    RECEIVE_USER: (state, {user}) => {
+      state.user = user
+    },
+    RESET_USER: (state) => {
+      state.user = {}
     }
   },
   actions: {
-    doLogin ({commit}, userInfo) {
-      console.log('login' + userInfo.username + ',' + userInfo.password)
-      return new Promise((resolve, reject) => {
-        login(userInfo.username, userInfo.password).then(resp => {
-          const token = resp.data.token
-          setToken(token)
-          commit('SET_TOKEN', token)
-          resolve()
-        }).catch(e => {
-          reject(e)
-        })
-      })
-    },
-    getActiveIndex ({commit}, index) {
-      commit('SET_ACTIVE_INDEX', index)
+    // 保存user的同步action
+    saveUser ({commit}, user) {
+      // const token = user.token;
+      // 将token保存到localStorage
+      // localStorage.setItem('token_key', token)
+      // 将token保存到state
+      // commit(RECEIVE_TOKEN,{token})
+      // 删除user中的token
+      // delete user.token;
+      commit('RECEIVE_USER', {user})
     }
   }
 }

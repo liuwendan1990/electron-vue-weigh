@@ -1,13 +1,10 @@
 <template>
   <el-container class="container">
-    <el-card class="box-card">
+    暂未开放
+    <!-- <el-card class="box-card">
       <div slot="header" class="clearfix">
         <span>个人资料</span>
-        <!-- <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button> -->
       </div>
-      <!-- <div v-for="o in 4" :key="o" class="text item">
-        {{'列表内容 ' + o }}
-      </div> -->
       <div class="box-content">
         <div class="text-align">图片</div>
         <ul class="list-group">
@@ -23,7 +20,7 @@
           </li>
         </ul>
       </div>
-    </el-card>
+    </el-card> -->
   </el-container>
 </template>
 
